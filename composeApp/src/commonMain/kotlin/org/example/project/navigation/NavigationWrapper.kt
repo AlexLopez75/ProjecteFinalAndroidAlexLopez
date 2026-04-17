@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
+import org.example.project.model.CardProvider
 import org.example.project.screens.GameScreen
 import org.example.project.screens.OptionsScreen
 import org.example.project.screens.ResultScreen
@@ -12,6 +13,7 @@ import org.example.project.screens.TitleScreen
 @Composable
 fun NavigationWrapper(){
     val backStack = rememberNavBackStack(navConfig, Route.TitleScreen)
+    val cardEntity = CardProvider
     NavDisplay(
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },
@@ -30,9 +32,9 @@ fun NavigationWrapper(){
             }
             entry<Route.GameScreen> { key ->
                 GameScreen(
-                    userId = key.userId,
                     navigateTo1 = { backStack.add(Route.TitleScreen) },
                     navigateTo4 = { backStack.add(Route.ResultScreen) },
+                    cardEntity = cardEntity
                 )
             }
 
