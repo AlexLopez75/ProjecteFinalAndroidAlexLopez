@@ -3,42 +3,81 @@ package org.example.project.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.example.project.model.CardProvider
+import org.example.project.model.Difficulty
 import org.example.project.model.MemoryCard
 
 class GameViewModel: ViewModel() {
     private val _cards = MutableStateFlow<List<MemoryCard>>(emptyList())
     val cards: StateFlow<List<MemoryCard>> = _cards.asStateFlow()
 
+    private val _timeLeft = MutableStateFlow<Int?>(null)
+    val timeLeft: StateFlow<Int?> = _timeLeft.asStateFlow()
+
+    private var totalTimeForProgress: Int = 1
+    private val _selectedDifficulty = MutableStateFlow(Difficulty.NORMAL)
+    val selectedDifficulty: StateFlow<Difficulty> = _selectedDifficulty.asStateFlow()
+    private val _isTimerEnabled = MutableStateFlow(true)
+    val isTimerEnabled: StateFlow<Boolean> = _isTimerEnabled.asStateFlow()
+
+    val remainingTimeProgress: Float
+        get(){
+            val current = _timeLeft.value?.toFloat() ?: 1f
+            return (current/totalTimeForProgress.toFloat()).coerceIn(0f, 1f)
+        }
+
     private var firstSelectedCard: MemoryCard? = null
     private var isProcessing = false
-
-    init {
-        setupGame()
-    }
+    private var timerJob: Job? = null
 
     fun setupGame() {
+        val difficulty = _selectedDifficulty.value
         val allCards = CardProvider.ObtainCards()
+        val selectedIds = allCards.map { it.id }.distinct().shuffled().take(difficulty.pairs)
 
-        val availableIds = allCards.map { it.id }.distinct()
-        val selectedIds = availableIds.shuffled().take(10)
+        _cards.value = allCards.filter { it.id in selectedIds }
+            .map { MemoryCard(cardEntity = it) }
+            .shuffled()
 
-        val deck = allCards.filter { it.id in selectedIds }.map { entity ->
-            MemoryCard(cardEntity = entity)
-        }.shuffled()
-
-        _cards.value = deck
         firstSelectedCard = null
         isProcessing = false
+
+        if (_isTimerEnabled.value) {
+            totalTimeForProgress = difficulty.timeSeconds
+            startTimer(difficulty.timeSeconds)
+        } else {
+            _timeLeft.value = null
+        }
+    }
+
+    private fun startTimer(seconds: Int?){
+        timerJob?.cancel()
+        _timeLeft.value = seconds
+
+        if (seconds == null) return
+
+        timerJob = viewModelScope.launch {
+            while (_timeLeft.value != null && _timeLeft.value!! > 0) {
+                delay(1000L)
+                _timeLeft.value = _timeLeft.value!! - 1
+
+                if (_cards.value.isNotEmpty() && _cards.value.all { it.isMatched }) {
+                    break
+                }
+            }
+            if (_timeLeft.value == 0) isProcessing = true
+        }
     }
 
     fun onCardClicked(clickedCard: MemoryCard){
-        if (isProcessing || clickedCard.isFaceUp || clickedCard.isMatched) return //Ignore if processing, visible or matched card
+        if (isProcessing || clickedCard.isFaceUp || clickedCard.isMatched || _timeLeft.value == 0) return //Returns if processing, visible or matched card or timer = 0
 
         _cards.value = _cards.value.map {
             if (it.uniqueId == clickedCard.uniqueId) it.copy(isFaceUp = true) else it
@@ -71,5 +110,13 @@ class GameViewModel: ViewModel() {
                 isProcessing = false
             }
         }
+    }
+
+    fun updateDifficulty(difficulty: Difficulty) {
+        _selectedDifficulty.value = difficulty
+    }
+
+    fun toggleTimer(enabled: Boolean) {
+        _isTimerEnabled.value = enabled
     }
 }
