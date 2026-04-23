@@ -1,3 +1,4 @@
+import org.gradle.kotlin.dsl.implementation
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -57,6 +58,12 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.jetbrains.navigation3.ui)
             implementation(libs.kotlinx.serialization.core)
+            /// Compose 1.9.0+
+            implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform:0.7.0")
+            /// Compose 1.9.0+ with different tech.annexflow.constraintlayout.core package
+            implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform:0.7.0-shaded-core")
+            /// Compose 1.9.0+ with different tech.annexflow.constraintlayout package
+            implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform:0.7.0-shaded")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
