@@ -11,10 +11,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.example.project.model.CardProvider
+import org.example.project.model.DeckType
 import org.example.project.model.Difficulty
 import org.example.project.model.MemoryCard
 
 class GameViewModel: ViewModel() {
+    private val _selectedDeck = MutableStateFlow(DeckType.PART_3)
+    val selectedDeck: StateFlow<DeckType> = _selectedDeck.asStateFlow()
+
     private val _cards = MutableStateFlow<List<MemoryCard>>(emptyList())
     val cards: StateFlow<List<MemoryCard>> = _cards.asStateFlow()
 
@@ -24,6 +28,7 @@ class GameViewModel: ViewModel() {
     private var totalTimeForProgress: Int = 1
     private val _selectedDifficulty = MutableStateFlow(Difficulty.NORMAL)
     val selectedDifficulty: StateFlow<Difficulty> = _selectedDifficulty.asStateFlow()
+
     private val _isTimerEnabled = MutableStateFlow(true)
     val isTimerEnabled: StateFlow<Boolean> = _isTimerEnabled.asStateFlow()
 
@@ -39,7 +44,12 @@ class GameViewModel: ViewModel() {
 
     fun setupGame() {
         val difficulty = _selectedDifficulty.value
-        val allCards = CardProvider.ObtainCards()
+        val allCards = when (_selectedDeck.value) {
+            DeckType.PART_3 -> CardProvider.ObtainDeckPart3()
+            DeckType.PART_4 -> CardProvider.ObtainDeckPart4()
+            DeckType.PART_5 -> CardProvider.ObtainDeckPart5()
+            DeckType.PART_6 -> CardProvider.ObtainDeckPart6()
+        }
         val selectedIds = allCards.map { it.id }.distinct().shuffled().take(difficulty.pairs)
 
         _cards.value = allCards.filter { it.id in selectedIds }
@@ -110,6 +120,10 @@ class GameViewModel: ViewModel() {
                 isProcessing = false
             }
         }
+    }
+
+    fun updateDeck(deck: DeckType) {
+        _selectedDeck.value = deck
     }
 
     fun updateDifficulty(difficulty: Difficulty) {
