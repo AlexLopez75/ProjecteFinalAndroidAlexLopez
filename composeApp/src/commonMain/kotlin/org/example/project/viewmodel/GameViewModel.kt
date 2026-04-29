@@ -63,7 +63,7 @@ class GameViewModel: ViewModel() {
             totalTimeForProgress = difficulty.timeSeconds
             startTimer(difficulty.timeSeconds)
         } else {
-            _timeLeft.value = null
+            startTimer(null)
         }
     }
 
