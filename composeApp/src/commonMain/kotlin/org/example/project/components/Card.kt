@@ -18,12 +18,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.example.project.model.CardEntity
+import kotlinproject.composeapp.generated.resources.Res
 import org.example.project.model.MemoryCard
 import org.jetbrains.compose.resources.painterResource
+import kotlinproject.composeapp.generated.resources.*
 
 @Composable
 fun Card(
@@ -49,14 +51,14 @@ fun Card(
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ){
-            if (memoryCard.isFaceUp) {
+        if (memoryCard.isFaceUp) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ){
                 Image(
                     painter = painterResource(memoryCard.cardEntity.image),
                     contentDescription = "Card image",
@@ -70,13 +72,14 @@ fun Card(
                     fontSize = 12.sp,
                     textAlign = TextAlign.Center
                 )
-            } else {
-                Text(
-                    text = "?",
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.displayLarge
-                )
             }
+        } else {
+            Image(
+                painter = painterResource(Res.drawable.card_pattern),
+                contentDescription = "Card back",
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
+            )
         }
     }
 }
