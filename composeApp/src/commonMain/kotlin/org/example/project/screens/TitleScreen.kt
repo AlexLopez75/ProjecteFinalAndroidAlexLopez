@@ -26,7 +26,6 @@ import org.jetbrains.compose.resources.painterResource
 import kotlinproject.composeapp.generated.resources.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.constraintlayout.compose.HorizontalAlign
 
 @Composable
 fun TitleScreen(

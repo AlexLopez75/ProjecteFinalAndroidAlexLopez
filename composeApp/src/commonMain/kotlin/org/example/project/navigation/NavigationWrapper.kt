@@ -24,19 +24,23 @@ fun NavigationWrapper(){
             entry<Route.TitleScreen> {
                 TitleScreen(
                     navigateTo2 = { backStack.add(Route.OptionsScreen) },
-                    navigateTo3 = { backStack.add(Route.GameScreen(userId = "user_42")) }
+                    navigateTo3 = {
+                        sharedViewModel.randomizeOptions()
+                        backStack.add(Route.GameScreen) }
                 )
             }
             entry<Route.OptionsScreen> {
                 OptionsScreen(
                     navigateBack = { backStack.removeLastOrNull() },
-                    navigateTo3 = { backStack.add(Route.GameScreen(userId = "user_42")) },
+                    navigateTo3 = { backStack.add(Route.GameScreen) },
                     viewModel = sharedViewModel
                 )
             }
             entry<Route.GameScreen> { key ->
                 GameScreen(
-                    navigateTo1 = { backStack.add(Route.TitleScreen) },
+                    navigateTo1 = {
+                        backStack.clear() //We do this to not consume infinite memory
+                        backStack.add(Route.TitleScreen) },
                     navigateTo4 = { backStack.add(Route.ResultScreen) },
                     cardEntity = cardEntity,
                     viewModel = sharedViewModel
@@ -45,7 +49,9 @@ fun NavigationWrapper(){
 
             entry<Route.ResultScreen> {
                 ResultScreen(
-                    navigateTo1 = { backStack.add(Route.TitleScreen) },
+                    navigateTo1 = {
+                        backStack.clear()
+                        backStack.add(Route.TitleScreen) },
                     viewModel = sharedViewModel
                     )
             }

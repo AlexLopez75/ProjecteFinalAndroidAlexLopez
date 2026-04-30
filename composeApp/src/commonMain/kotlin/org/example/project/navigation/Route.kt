@@ -9,7 +9,7 @@ sealed class Route: NavKey {
     @Serializable
     data object OptionsScreen : Route()
     @Serializable
-    data class GameScreen(val userId: String) : Route()
+    data object GameScreen : Route()
     @Serializable
     data object ResultScreen : Route()
 }

@@ -2,10 +2,8 @@ package org.example.project.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -120,6 +118,12 @@ class GameViewModel: ViewModel() {
                 isProcessing = false
             }
         }
+    }
+
+    fun randomizeOptions() {
+        _selectedDeck.value = DeckType.entries.random()
+        _selectedDifficulty.value = Difficulty.entries.random()
+        _isTimerEnabled.value = listOf(true, false).random()
     }
 
     fun updateDeck(deck: DeckType) {
