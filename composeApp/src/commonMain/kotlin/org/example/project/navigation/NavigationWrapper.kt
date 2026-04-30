@@ -44,7 +44,10 @@ fun NavigationWrapper(){
             }
 
             entry<Route.ResultScreen> {
-                ResultScreen(navigateTo1 = { backStack.add(Route.TitleScreen) })
+                ResultScreen(
+                    navigateTo1 = { backStack.add(Route.TitleScreen) },
+                    viewModel = sharedViewModel
+                    )
             }
         }
     )

@@ -38,7 +38,7 @@ fun TitleScreen(
             .fillMaxSize()
             .background(Color(0xFF121212)),
         ) {
-        val (jojoTitle, jojoCustom, btnOption, btnPlay) = createRefs()
+        val (jojoTitle, jojoCustom, jojoStands, btnOption, btnPlay) = createRefs()
 
         Image(
             painter = painterResource(Res.drawable.jojo_bizarre_adventure),
@@ -64,13 +64,25 @@ fun TitleScreen(
                 }
         )
 
+        Image(
+            painter = painterResource(Res.drawable.jojo_stands),
+            contentDescription = "Jojo title",
+            modifier = Modifier
+                .size(300.dp)
+                .constrainAs(jojoStands) {
+                    top.linkTo(jojoCustom.top, margin = 80.dp)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
+        )
+
         Button(
             onClick = navigateTo2,
             modifier = Modifier
                 .fillMaxWidth(0.7f)
                 .height(70.dp)
                 .constrainAs(btnOption) {
-                top.linkTo(jojoCustom.bottom, margin = 300.dp)
+                top.linkTo(jojoStands.bottom, margin = 40.dp)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
             },
@@ -102,7 +114,7 @@ fun TitleScreen(
                 .fillMaxWidth(0.7f)
                 .height(70.dp)
                 .constrainAs(btnPlay) {
-                top.linkTo(btnOption.bottom, margin = 40.dp)
+                top.linkTo(btnOption.bottom, margin = 20.dp)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
             },
