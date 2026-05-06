@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -70,7 +71,9 @@ fun OptionsScreen(
         Box() {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(1),
-                verticalArrangement = Arrangement.spacedBy(2.dp)
+                verticalArrangement = Arrangement.spacedBy(2.dp),
+                modifier = Modifier
+                    .widthIn(max = 800.dp)
             ) {
                 items(DeckType.entries.toTypedArray()) { deck ->
                     DeckOptionCard(
@@ -87,7 +90,10 @@ fun OptionsScreen(
         Text("DIFFICULTY", color = Color.Gray, style = MaterialTheme.typography.labelLarge)
 
         Row(
-            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+            modifier = Modifier
+                .widthIn(max = 800.dp)
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Difficulty.entries.forEach { difficulty ->
@@ -98,7 +104,8 @@ fun OptionsScreen(
                         containerColor = if (isSelected) Color(0xFFFFD700) else Color.DarkGray,
                         contentColor = if (isSelected) Color.Black else Color.White
                     ),
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(1f)
+                        .widthIn(max = 800.dp),
                     shape = CutCornerShape(8.dp)
                 ) {
                     Text(difficulty.name, fontWeight = FontWeight.Bold)
@@ -109,12 +116,16 @@ fun OptionsScreen(
         Spacer(Modifier.height(8.dp))
 
         Card(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .widthIn(max = 800.dp)
+                .fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = Color.DarkGray),
             shape = CutCornerShape(8.dp)
         ) {
             Row(
-                modifier = Modifier.padding(12.dp).fillMaxWidth(),
+                modifier = Modifier
+                    .padding(12.dp)
+                    .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -133,7 +144,10 @@ fun OptionsScreen(
                 viewModel.setupGame()
                 navigateTo3()
             },
-            modifier = Modifier.fillMaxWidth().height(40.dp),
+            modifier = Modifier
+                .widthIn(max = 400.dp)
+                .fillMaxWidth()
+                .height(40.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD700)),
             shape = CutCornerShape(12.dp)
         ) {
@@ -146,7 +160,10 @@ fun OptionsScreen(
             onClick = {
                 navigateBack()
             },
-            modifier = Modifier.fillMaxWidth().height(40.dp),
+            modifier = Modifier
+                .widthIn(max = 400.dp)
+                .fillMaxWidth()
+                .height(40.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD700)),
             shape = CutCornerShape(12.dp)
         ) {

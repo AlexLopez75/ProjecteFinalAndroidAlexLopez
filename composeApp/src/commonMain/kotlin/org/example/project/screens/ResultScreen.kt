@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
@@ -124,7 +125,8 @@ fun ResultScreen(
         Button(
             onClick = navigateTo1,
             modifier = Modifier
-                .fillMaxWidth(0.8f)
+                .widthIn(max = 800.dp)
+                .fillMaxWidth(0.7f)
                 .height(70.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD700)),
             shape = CutCornerShape(12.dp)

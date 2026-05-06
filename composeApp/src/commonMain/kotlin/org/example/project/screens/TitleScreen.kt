@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -78,6 +79,7 @@ fun TitleScreen(
         Button(
             onClick = navigateTo2,
             modifier = Modifier
+                .widthIn(max = 800.dp)
                 .fillMaxWidth(0.7f)
                 .height(70.dp)
                 .constrainAs(btnOption) {
@@ -110,6 +112,7 @@ fun TitleScreen(
         Button(
             onClick = navigateTo3,
             modifier = Modifier
+                .widthIn(max = 800.dp)
                 .fillMaxWidth(0.7f)
                 .height(70.dp)
                 .constrainAs(btnPlay) {

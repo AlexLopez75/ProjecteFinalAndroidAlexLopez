@@ -65,7 +65,7 @@ kotlin {
             /// Compose 1.9.0+ with different tech.annexflow.constraintlayout package
             implementation("tech.annexflow.compose:constraintlayout-compose-multiplatform:0.7.0-shaded")
             implementation(compose.materialIconsExtended)
-     }
+        }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }

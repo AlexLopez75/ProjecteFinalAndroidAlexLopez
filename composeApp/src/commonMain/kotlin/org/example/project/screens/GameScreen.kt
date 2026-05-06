@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -42,7 +43,7 @@ fun GameScreen(
     navigateTo1: () -> Unit,
     navigateTo4: () -> Unit,
     cardEntity: CardProvider,
-    viewModel: GameViewModel = viewModel()
+    viewModel: GameViewModel = viewModel { GameViewModel() }
 ) {
     val cardList by viewModel.cards.collectAsState()
     val timeLeft by viewModel.timeLeft.collectAsState()
@@ -79,6 +80,7 @@ fun GameScreen(
                 modifier = Modifier
                     .padding(25.dp, 40.dp)
                     .height(20.dp)
+                    .widthIn(max = 1000.dp)
                     .fillMaxWidth(),
                 color = if (isCritical) Color.Red else Color(0xFFFFD700),
                 trackColor = Color(0xFF121212),
@@ -90,6 +92,7 @@ fun GameScreen(
             columns = GridCells.Fixed(4),
             contentPadding = PaddingValues(8.dp),
             modifier = Modifier.weight(1f)
+                .widthIn(max = 700.dp),
         ) {
             items(items = cardList, key = {it.uniqueId}) { memoryCard ->
                 Card(
@@ -108,6 +111,7 @@ fun GameScreen(
             Button(
                 onClick = navigateTo1,
                 modifier = Modifier
+                    .widthIn(max = 600.dp)
                     .weight(1f)
                     .height(50.dp)
                     .padding(end = 8.dp),
@@ -124,6 +128,7 @@ fun GameScreen(
             Button(
                 onClick = { viewModel.setupGame() },
                 modifier = Modifier
+                    .widthIn(max = 600.dp)
                     .weight(1f)
                     .height(50.dp)
                     .padding(start = 8.dp),

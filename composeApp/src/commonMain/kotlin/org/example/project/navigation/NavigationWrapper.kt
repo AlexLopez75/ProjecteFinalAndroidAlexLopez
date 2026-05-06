@@ -16,7 +16,7 @@ import org.example.project.viewmodel.GameViewModel
 fun NavigationWrapper(){
     val backStack = rememberNavBackStack(navConfig, Route.TitleScreen)
     val cardEntity = CardProvider
-    val sharedViewModel: GameViewModel = viewModel()
+    val gameViewModel: GameViewModel = viewModel { GameViewModel() }
     NavDisplay(
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },
@@ -25,7 +25,7 @@ fun NavigationWrapper(){
                 TitleScreen(
                     navigateTo2 = { backStack.add(Route.OptionsScreen) },
                     navigateTo3 = {
-                        sharedViewModel.randomizeOptions()
+                        gameViewModel.randomizeOptions()
                         backStack.add(Route.GameScreen) }
                 )
             }
@@ -33,7 +33,7 @@ fun NavigationWrapper(){
                 OptionsScreen(
                     navigateBack = { backStack.removeLastOrNull() },
                     navigateTo3 = { backStack.add(Route.GameScreen) },
-                    viewModel = sharedViewModel
+                    viewModel = gameViewModel
                 )
             }
             entry<Route.GameScreen> { key ->
@@ -43,7 +43,7 @@ fun NavigationWrapper(){
                         backStack.add(Route.TitleScreen) },
                     navigateTo4 = { backStack.add(Route.ResultScreen) },
                     cardEntity = cardEntity,
-                    viewModel = sharedViewModel
+                    viewModel = gameViewModel
                 )
             }
 
@@ -52,7 +52,7 @@ fun NavigationWrapper(){
                     navigateTo1 = {
                         backStack.clear()
                         backStack.add(Route.TitleScreen) },
-                    viewModel = sharedViewModel
+                    viewModel = gameViewModel
                     )
             }
         }
