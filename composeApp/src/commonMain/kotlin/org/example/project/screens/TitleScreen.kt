@@ -27,6 +27,7 @@ import org.jetbrains.compose.resources.painterResource
 import kotlinproject.composeapp.generated.resources.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.ui.platform.testTag
 
 @Composable
 fun TitleScreen(
@@ -36,7 +37,8 @@ fun TitleScreen(
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF121212)),
+            .background(Color(0xFF121212))
+            .testTag("title_screen_container"),
         ) {
         val (jojoTitle, jojoCustom, jojoStands, btnOption, btnPlay) = createRefs()
 
@@ -50,6 +52,7 @@ fun TitleScreen(
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 }
+                .testTag("jojo_main_logo")
         )
 
         Image(
@@ -62,11 +65,12 @@ fun TitleScreen(
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 }
+                .testTag("bizarre_memory_logo")
         )
 
         Image(
             painter = painterResource(Res.drawable.jojo_stands),
-            contentDescription = "Jojo title",
+            contentDescription = "Jojo Image",
             modifier = Modifier
                 .size(300.dp)
                 .constrainAs(jojoStands) {
@@ -74,6 +78,7 @@ fun TitleScreen(
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 }
+                .testTag("jojo_stands")
         )
 
         Button(
@@ -86,7 +91,8 @@ fun TitleScreen(
                 top.linkTo(jojoStands.bottom, margin = 40.dp)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
-            },
+                }
+                .testTag("btn_custom_game"),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD700)),
             shape = CutCornerShape(12.dp)
         ) {
@@ -119,7 +125,8 @@ fun TitleScreen(
                 top.linkTo(btnOption.bottom, margin = 20.dp)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
-            },
+                }
+                .testTag("btn_quick_play"),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD700)),
             shape = CutCornerShape(12.dp)
         ) {

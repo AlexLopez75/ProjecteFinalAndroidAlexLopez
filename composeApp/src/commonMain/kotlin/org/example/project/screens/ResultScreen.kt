@@ -25,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -65,7 +66,8 @@ fun ResultScreen(
                 fontWeight = FontWeight.Black,
                 fontStyle = FontStyle.Italic,
                 color = Color.White
-            )
+            ),
+            modifier = Modifier.testTag("game_results")
         )
 
         Spacer(Modifier.height(32.dp))
@@ -73,7 +75,8 @@ fun ResultScreen(
         Text(
             text = "RANK",
             color = Color.Gray,
-            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+            modifier = Modifier.testTag("rank_title")
         )
         Text(
             text = rank as String,
@@ -83,7 +86,7 @@ fun ResultScreen(
                 fontSize = 100.sp,
                 color = rankColor as Color
             ),
-            modifier = Modifier.padding(vertical = 8.dp)
+            modifier = Modifier.padding(vertical = 8.dp).testTag("rank")
         )
 
         Row(
@@ -94,7 +97,7 @@ fun ResultScreen(
                 Icon(
                     imageVector = Icons.Default.Star,
                     contentDescription = "Star",
-                    modifier = Modifier.size(60.dp),
+                    modifier = Modifier.size(60.dp).testTag("star_icon"),
                     tint = if (i <= stars as Int) Color(0xFFFFD700) else Color.DarkGray
                 )
             }
@@ -106,7 +109,8 @@ fun ResultScreen(
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontWeight = FontWeight.Bold,
                     color = Color.White
-                )
+                ),
+                modifier = Modifier.testTag("time_title")
             )
         }
 
@@ -119,7 +123,7 @@ fun ResultScreen(
                 fontStyle = FontStyle.Italic,
                 color = rankColor
             ),
-            modifier = Modifier.padding(bottom = 48.dp)
+            modifier = Modifier.padding(bottom = 48.dp).testTag("time_remaining")
         )
 
         Button(
@@ -127,13 +131,15 @@ fun ResultScreen(
             modifier = Modifier
                 .widthIn(max = 800.dp)
                 .fillMaxWidth(0.7f)
-                .height(70.dp),
+                .height(70.dp)
+                .testTag("return_title"),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD700)),
             shape = CutCornerShape(12.dp)
         ) {
             Text("RETURN TO TITLE",
                 color = Color.Black,
-                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Black))
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Black),
+            )
         }
     }
 }

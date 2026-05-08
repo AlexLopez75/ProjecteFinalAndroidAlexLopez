@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -52,8 +53,8 @@ fun GameScreen(
     val isGameFinished = cardList.isNotEmpty() && cardList.all { it.isMatched }
     val isGameOver = timeLeft == 0 && !isGameFinished
 
-    LaunchedEffect(key1 = isGameFinished) {
-        if (isGameFinished) {
+    LaunchedEffect(key1 = isGameFinished, key2 = isGameOver) {
+        if (isGameFinished || isGameOver) {
             navigateTo4()
         }
     }
@@ -65,7 +66,8 @@ fun GameScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF121212)),
+            .background(Color(0xFF121212))
+            .testTag("game_screen_container"),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -81,7 +83,8 @@ fun GameScreen(
                     .padding(25.dp, 40.dp)
                     .height(20.dp)
                     .widthIn(max = 1000.dp)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .testTag("timer_progress_bar"),
                 color = if (isCritical) Color.Red else Color(0xFFFFD700),
                 trackColor = Color(0xFF121212),
                 strokeCap = StrokeCap.Round
@@ -92,7 +95,8 @@ fun GameScreen(
             columns = GridCells.Fixed(4),
             contentPadding = PaddingValues(8.dp),
             modifier = Modifier.weight(1f)
-                .widthIn(max = 700.dp),
+                .widthIn(max = 700.dp)
+                .testTag("cards_grid"),
         ) {
             items(items = cardList, key = {it.uniqueId}) { memoryCard ->
                 Card(
@@ -114,7 +118,8 @@ fun GameScreen(
                     .widthIn(max = 600.dp)
                     .weight(1f)
                     .height(50.dp)
-                    .padding(end = 8.dp),
+                    .padding(end = 8.dp)
+                    .testTag("btn_game_go_back"),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD700)),
                 shape = CutCornerShape(12.dp)
             ) {
@@ -131,7 +136,8 @@ fun GameScreen(
                     .widthIn(max = 600.dp)
                     .weight(1f)
                     .height(50.dp)
-                    .padding(start = 8.dp),
+                    .padding(start = 8.dp)
+                    .testTag("btn_game_restart"),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD700)),
                 shape = CutCornerShape(12.dp)
             ) {

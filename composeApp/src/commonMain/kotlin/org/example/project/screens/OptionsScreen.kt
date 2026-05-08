@@ -28,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -50,7 +51,8 @@ fun OptionsScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFF121212))
-            .padding(16.dp),
+            .padding(16.dp)
+            .testTag("options_screen_container"),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(Modifier.height(24.dp))
@@ -61,7 +63,8 @@ fun OptionsScreen(
                 color = Color.White,
                 fontWeight = FontWeight.Black,
                 fontStyle = FontStyle.Italic
-            )
+            ),
+            modifier = Modifier.testTag("options_title")
         )
 
         Spacer(Modifier.height(16.dp))
@@ -104,8 +107,10 @@ fun OptionsScreen(
                         containerColor = if (isSelected) Color(0xFFFFD700) else Color.DarkGray,
                         contentColor = if (isSelected) Color.Black else Color.White
                     ),
-                    modifier = Modifier.weight(1f)
-                        .widthIn(max = 800.dp),
+                    modifier = Modifier
+                        .weight(1f)
+                        .widthIn(max = 800.dp)
+                        .testTag("btn_difficulty_${difficulty.name}"),
                     shape = CutCornerShape(8.dp)
                 ) {
                     Text(difficulty.name, fontWeight = FontWeight.Bold)
@@ -132,7 +137,8 @@ fun OptionsScreen(
                 Text("ENABLE TIMER", color = Color.White, fontWeight = FontWeight.Bold)
                 Switch(
                     checked = isTimerEnabled,
-                    onCheckedChange = { viewModel.toggleTimer(it) }
+                    onCheckedChange = { viewModel.toggleTimer(it) },
+                    modifier = Modifier.testTag("timer_switch")
                 )
             }
         }
@@ -147,7 +153,8 @@ fun OptionsScreen(
             modifier = Modifier
                 .widthIn(max = 400.dp)
                 .fillMaxWidth()
-                .height(40.dp),
+                .height(40.dp)
+                .testTag("btn_start_game"),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD700)),
             shape = CutCornerShape(12.dp)
         ) {
@@ -163,7 +170,8 @@ fun OptionsScreen(
             modifier = Modifier
                 .widthIn(max = 400.dp)
                 .fillMaxWidth()
-                .height(40.dp),
+                .height(40.dp)
+                .testTag("btn_back_to_title"),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD700)),
             shape = CutCornerShape(12.dp)
         ) {
