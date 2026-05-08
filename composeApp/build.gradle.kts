@@ -68,6 +68,14 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
+        }
+        androidUnitTest.dependencies{
+            implementation(libs.junit)
+            implementation(libs.androidx.core.testing)
+            implementation(libs.robolectric)
+            implementation(libs.androidx.core.testing)
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -79,6 +87,12 @@ kotlin {
 android {
     namespace = "org.example.project"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
+
+    testOptions{
+        unitTests{
+            isIncludeAndroidResources = true
+        }
+    }
 
     defaultConfig {
         applicationId = "org.example.project"
@@ -104,7 +118,8 @@ android {
 }
 
 dependencies {
-    debugImplementation(libs.compose.uiTooling)
+    testImplementation(kotlin("test"))
+    debugImplementation(libs.ui.test.manifest)
 }
 
 compose.desktop {

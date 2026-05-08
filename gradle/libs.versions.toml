@@ -18,8 +18,12 @@ material3 = "1.10.0-alpha05"
 multiplatform-nav3-ui = "1.0.0-alpha06"
 kotlinx-serialization = "1.10.0"
 archCoreTesting = "2.2.0"
+robolectric = "4.16.1"
+uiTestManifest = "1.6.1"
+uiTestManifestVersion = "1.11.1"
 
 [libraries]
+androidx-ui-test-manifest-v161 = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestManifest" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { module = "junit:junit", version.ref = "junit" }
@@ -41,6 +45,8 @@ kotlinx-coroutinesSwing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-s
 jetbrains-navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "multiplatform-nav3-ui" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
 androidx-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "archCoreTesting" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestManifestVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
