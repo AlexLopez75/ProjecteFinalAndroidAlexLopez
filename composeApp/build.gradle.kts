@@ -67,6 +67,7 @@ kotlin {
             implementation(compose.materialIconsExtended)
         }
         commonTest.dependencies {
+            implementation(libs.junit)
             implementation(libs.kotlin.test)
             @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
@@ -76,11 +77,16 @@ kotlin {
             implementation(libs.androidx.core.testing)
             implementation(libs.robolectric)
             implementation(libs.androidx.core.testing)
+            implementation("org.robolectric:robolectric:4.10.3")
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
+            implementation("javazoom:jlayer:1.0.1")
         }
+    }
+    sourceSets.androidInstrumentedTest.dependencies {
+        implementation(kotlin("test"))
     }
 }
 

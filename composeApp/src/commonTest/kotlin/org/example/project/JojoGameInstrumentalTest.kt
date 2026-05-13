@@ -1,16 +1,29 @@
 package org.example.project
 
-import androidx.compose.ui.test.*
-import org.example.project.screens.*
-import org.example.project.viewmodel.GameViewModel
-import org.example.project.model.Difficulty
+import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertCountEquals
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsOff
+import androidx.compose.ui.test.assertIsOn
+import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.onAllNodesWithTag
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.runComposeUiTest
 import org.example.project.model.CardProvider
+import org.example.project.model.Difficulty
+import org.example.project.screens.GameScreen
+import org.example.project.screens.OptionsScreen
+import org.example.project.screens.ResultScreen
+import org.example.project.screens.TitleScreen
+import org.example.project.viewmodel.GameViewModel
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalTestApi::class)
-class JojoGameInstrumentalTest {
+class JojoGameInstrumentalTest : BaseGuiTest(){
 
     // --- TITLE SCREEN TESTS ---
 
@@ -87,7 +100,12 @@ class JojoGameInstrumentalTest {
         viewModel.toggleTimer(true) // Aseguramos que el timer esté activo
 
         setContent {
-            GameScreen(navigateTo1 = {}, navigateTo4 = {}, cardEntity = CardProvider, viewModel = viewModel)
+            GameScreen(
+                navigateTo1 = {},
+                navigateTo4 = {},
+                cardEntity = CardProvider,
+                viewModel = viewModel
+            )
         }
 
         onNodeWithTag("game_screen_container").assertIsDisplayed()

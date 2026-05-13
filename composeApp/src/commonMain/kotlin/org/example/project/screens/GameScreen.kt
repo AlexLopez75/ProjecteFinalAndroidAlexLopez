@@ -48,7 +48,6 @@ fun GameScreen(
 ) {
     val cardList by viewModel.cards.collectAsState()
     val timeLeft by viewModel.timeLeft.collectAsState()
-    var useTimerToggle by remember { mutableStateOf(false) }
 
     val isGameFinished = cardList.isNotEmpty() && cardList.all { it.isMatched }
     val isGameOver = timeLeft == 0 && !isGameFinished

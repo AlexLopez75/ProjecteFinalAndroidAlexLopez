@@ -71,7 +71,7 @@ fun OptionsScreen(
 
         Text("SELECT DECK", color = Color.Gray, style = MaterialTheme.typography.labelLarge)
 
-        Box() {
+        Box {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(1),
                 verticalArrangement = Arrangement.spacedBy(2.dp),

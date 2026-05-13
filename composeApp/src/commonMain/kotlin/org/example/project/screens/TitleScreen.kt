@@ -28,12 +28,14 @@ import kotlinproject.composeapp.generated.resources.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.ui.platform.testTag
+import org.example.project.audio.AudioPlayer
 
 @Composable
 fun TitleScreen(
     navigateTo2: () -> Unit,
     navigateTo3: () -> Unit
 ) {
+
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
