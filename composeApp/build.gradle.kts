@@ -15,7 +15,7 @@ plugins {
 kotlin {
     androidTarget {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
     
@@ -73,11 +73,9 @@ kotlin {
             implementation(compose.uiTest)
         }
         androidUnitTest.dependencies{
-            implementation(libs.junit)
-            implementation(libs.androidx.core.testing)
+            implementation(libs.kotlin.testJunit)  // kotlin-test-junit
             implementation(libs.robolectric)
             implementation(libs.androidx.core.testing)
-            implementation("org.robolectric:robolectric:4.10.3")
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -118,14 +116,17 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
 dependencies {
     testImplementation(kotlin("test"))
+    testImplementation(libs.junit.junit)
+    testImplementation(libs.junit.junit)
     debugImplementation(libs.ui.test.manifest)
+    testImplementation("org.robolectric:robolectric:4.11.1")
 }
 
 compose.desktop {

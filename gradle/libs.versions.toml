@@ -22,6 +22,7 @@ robolectric = "4.16.1"
 uiTestManifest = "1.6.1"
 uiTestManifestVersion = "1.11.1"
 uiTest = "1.11.1"
+junitVersion = "4.12"
 
 [libraries]
 androidx-ui-test-manifest-v161 = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestManifest" }
@@ -49,6 +50,7 @@ androidx-core-testing = { group = "androidx.arch.core", name = "core-testing", v
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestManifestVersion" }
 androidx-ui-test = { group = "androidx.compose.ui", name = "ui-test", version.ref = "uiTest" }
+junit-junit = { group = "junit", name = "junit", version.ref = "junitVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

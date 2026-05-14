@@ -9,7 +9,8 @@ import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.v2.runComposeUiTest
+import org.example.project.audio.AudioPlayer
 import org.example.project.model.CardProvider
 import org.example.project.model.Difficulty
 import org.example.project.screens.GameScreen
@@ -17,11 +18,13 @@ import org.example.project.screens.OptionsScreen
 import org.example.project.screens.ResultScreen
 import org.example.project.screens.TitleScreen
 import org.example.project.viewmodel.GameViewModel
-import kotlin.test.BeforeTest
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
+@RunWith(RobolectricTestRunner::class)
 @OptIn(ExperimentalTestApi::class)
 class JojoGameInstrumentalTest : BaseGuiTest(){
 
@@ -30,7 +33,7 @@ class JojoGameInstrumentalTest : BaseGuiTest(){
     @Test
     fun titleScreen_elementsVisibility() = runComposeUiTest {
         setContent {
-            TitleScreen(navigateTo2 = {}, navigateTo3 = {})
+            TitleScreen(audioPlayer = AudioPlayer(), navigateTo2 = {}, navigateTo3 = {})
         }
 
         // Verificamos que el contenedor y los logos principales se muestran
@@ -48,7 +51,10 @@ class JojoGameInstrumentalTest : BaseGuiTest(){
     fun titleScreen_navigationTriggers() = runComposeUiTest {
         var navigatedToOptions = false
         setContent {
-            TitleScreen(navigateTo2 = { navigatedToOptions = true }, navigateTo3 = {})
+            TitleScreen(
+                audioPlayer = AudioPlayer(),
+                navigateTo2 = { navigatedToOptions = true },
+                navigateTo3 = {})
         }
 
         onNodeWithTag("btn_custom_game").performClick()
