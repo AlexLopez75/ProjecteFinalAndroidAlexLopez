@@ -5,6 +5,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
+import org.example.project.audio.AudioPlayer
 import org.example.project.model.CardProvider
 import org.example.project.screens.GameScreen
 import org.example.project.screens.OptionsScreen
@@ -17,16 +18,19 @@ fun NavigationWrapper(){
     val backStack = rememberNavBackStack(navConfig, Route.TitleScreen)
     val cardEntity = CardProvider
     val gameViewModel: GameViewModel = viewModel { GameViewModel() }
+    val audioPlayer = AudioPlayer()
     NavDisplay(
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },
         entryProvider = entryProvider {
             entry<Route.TitleScreen> {
                 TitleScreen(
+                    audioPlayer = audioPlayer,
                     navigateTo2 = { backStack.add(Route.OptionsScreen) },
                     navigateTo3 = {
                         gameViewModel.randomizeOptions()
-                        backStack.add(Route.GameScreen) }
+                        backStack.add(Route.GameScreen)
+                    }
                 )
             }
             entry<Route.OptionsScreen> {

@@ -32,10 +32,10 @@ import org.example.project.audio.AudioPlayer
 
 @Composable
 fun TitleScreen(
+    audioPlayer: AudioPlayer,
     navigateTo2: () -> Unit,
     navigateTo3: () -> Unit
 ) {
-
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -84,7 +84,10 @@ fun TitleScreen(
         )
 
         Button(
-            onClick = navigateTo2,
+            onClick = {
+                audioPlayer.startBackgroundMusic()
+                navigateTo2()
+            },
             modifier = Modifier
                 .widthIn(max = 800.dp)
                 .fillMaxWidth(0.7f)
@@ -118,7 +121,10 @@ fun TitleScreen(
         }
 
         Button(
-            onClick = navigateTo3,
+            onClick = {
+                audioPlayer.startBackgroundMusic()
+                navigateTo3()
+            },
             modifier = Modifier
                 .widthIn(max = 800.dp)
                 .fillMaxWidth(0.7f)
@@ -146,7 +152,7 @@ fun TitleScreen(
                     modifier = Modifier
                         .size(25.dp),
                     imageVector = Icons.Default.PlayArrow,
-                    contentDescription = "Custom game",
+                    contentDescription = "Quick game",
                     tint = Color.Black
                 )
             }

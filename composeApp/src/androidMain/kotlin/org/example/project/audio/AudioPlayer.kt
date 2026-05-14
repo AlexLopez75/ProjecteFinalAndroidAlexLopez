@@ -1,6 +1,7 @@
 package org.example.project.audio
 
 import android.media.MediaPlayer
+import android.util.Log
 import org.example.project.AppContextHolder
 import org.example.project.R
 
@@ -9,15 +10,31 @@ actual class AudioPlayer actual constructor() {
     private var bgPlayer: MediaPlayer? = null
 
     actual fun startBackgroundMusic() {
-        val context = AppContextHolder.context
-        bgPlayer = MediaPlayer.create(context, R.raw.the_stardust_man_appears)
-        bgPlayer?.isLooping = true // ¡ESTO ES CLAVE!
-        bgPlayer?.start()
+        if (bgPlayer?.isPlaying == true) return
+
+        try {
+            val context = AppContextHolder.context
+            bgPlayer?.release()
+
+            bgPlayer = MediaPlayer.create(context, org.example.project.R.raw.the_stardust_man_appears)
+
+            bgPlayer?.apply {
+                isLooping = true
+                setVolume(1.0f, 1.0f)
+                start()
+            }
+            Log.d("AUDIO_DEBUG","Música iniciada correctamente")
+        } catch (e: Exception) {
+            Log.d("AUDIO_DEBUG", "Error al reproducir: ${e.message}")
+            e.printStackTrace()
+        }
     }
 
     actual fun stopBackgroundMusic() {
-        bgPlayer?.stop()
-        bgPlayer?.release()
+        bgPlayer?.let {
+            if (it.isPlaying) it.stop()
+            it.release()
+        }
         bgPlayer = null
     }
 
