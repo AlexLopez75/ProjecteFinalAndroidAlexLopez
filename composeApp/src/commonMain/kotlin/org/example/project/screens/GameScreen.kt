@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -66,6 +67,7 @@ fun GameScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFF121212))
+            .safeDrawingPadding()
             .testTag("game_screen_container"),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -81,7 +83,7 @@ fun GameScreen(
                 modifier = Modifier
                     .padding(25.dp, 40.dp)
                     .height(20.dp)
-                    .widthIn(max = 1000.dp)
+                    .widthIn(max = 800.dp)
                     .fillMaxWidth()
                     .testTag("timer_progress_bar"),
                 color = if (isCritical) Color.Red else Color(0xFFFFD700),

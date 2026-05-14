@@ -5,20 +5,21 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
-import org.example.project.audio.AudioPlayer
 import org.example.project.model.CardProvider
 import org.example.project.screens.GameScreen
 import org.example.project.screens.OptionsScreen
 import org.example.project.screens.ResultScreen
 import org.example.project.screens.TitleScreen
 import org.example.project.viewmodel.GameViewModel
+import org.example.project.audio.AudioInstance
 
 @Composable
 fun NavigationWrapper(){
     val backStack = rememberNavBackStack(navConfig, Route.TitleScreen)
     val cardEntity = CardProvider
     val gameViewModel: GameViewModel = viewModel { GameViewModel() }
-    val audioPlayer = AudioPlayer()
+    val audioPlayer = AudioInstance.player
+
     NavDisplay(
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },

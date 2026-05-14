@@ -10,11 +10,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -46,11 +49,14 @@ fun OptionsScreen(
     val selectedDifficulty by viewModel.selectedDifficulty.collectAsState()
     val isTimerEnabled by viewModel.isTimerEnabled.collectAsState()
     val selectedDeck by viewModel.selectedDeck.collectAsState()
+    val scrollState = rememberScrollState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFF121212))
+            .safeDrawingPadding()
+            .verticalScroll(scrollState)
             .padding(16.dp)
             .testTag("options_screen_container"),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -69,51 +75,52 @@ fun OptionsScreen(
 
         Spacer(Modifier.height(16.dp))
 
-        Text("SELECT DECK", color = Color.Gray, style = MaterialTheme.typography.labelLarge)
+        Column(
+            modifier = Modifier.widthIn(max = 500.dp).fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("SELECT DECK", color = Color.Gray, style = MaterialTheme.typography.labelLarge)
 
-        Box {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(1),
-                verticalArrangement = Arrangement.spacedBy(2.dp),
-                modifier = Modifier
-                    .widthIn(max = 800.dp)
-            ) {
-                items(DeckType.entries.toTypedArray()) { deck ->
-                    DeckOptionCard(
-                        deck = deck,
-                        isSelected = deck == selectedDeck,
-                        onSelect = { viewModel.updateDeck(deck) }
-                    )
-                }
+            Spacer(Modifier.height(8.dp))
+
+            DeckType.entries.forEach { deck ->
+                DeckOptionCard(
+                    deck = deck,
+                    isSelected = deck == selectedDeck,
+                    onSelect = { viewModel.updateDeck(deck) }
+                )
+                Spacer(Modifier.height(4.dp))
             }
         }
 
         Spacer(Modifier.height(16.dp))
 
-        Text("DIFFICULTY", color = Color.Gray, style = MaterialTheme.typography.labelLarge)
+        Column(modifier = Modifier.widthIn(max = 500.dp)) {
+            Text("DIFFICULTY", color = Color.Gray, style = MaterialTheme.typography.labelLarge)
 
-        Row(
-            modifier = Modifier
-                .widthIn(max = 800.dp)
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Difficulty.entries.forEach { difficulty ->
-                val isSelected = selectedDifficulty == difficulty
-                Button(
-                    onClick = { viewModel.updateDifficulty(difficulty) },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isSelected) Color(0xFFFFD700) else Color.DarkGray,
-                        contentColor = if (isSelected) Color.Black else Color.White
-                    ),
-                    modifier = Modifier
-                        .weight(1f)
-                        .widthIn(max = 800.dp)
-                        .testTag("btn_difficulty_${difficulty.name}"),
-                    shape = CutCornerShape(8.dp)
-                ) {
-                    Text(difficulty.name, fontWeight = FontWeight.Bold)
+            Row(
+                modifier = Modifier
+                    .widthIn(max = 800.dp)
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Difficulty.entries.forEach { difficulty ->
+                    val isSelected = selectedDifficulty == difficulty
+                    Button(
+                        onClick = { viewModel.updateDifficulty(difficulty) },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = if (isSelected) Color(0xFFFFD700) else Color.DarkGray,
+                            contentColor = if (isSelected) Color.Black else Color.White
+                        ),
+                        modifier = Modifier
+                            .weight(1f)
+                            .widthIn(max = 800.dp)
+                            .testTag("btn_difficulty_${difficulty.name}"),
+                        shape = CutCornerShape(8.dp)
+                    ) {
+                        Text(difficulty.name, fontWeight = FontWeight.Bold)
+                    }
                 }
             }
         }
@@ -122,7 +129,7 @@ fun OptionsScreen(
 
         Card(
             modifier = Modifier
-                .widthIn(max = 800.dp)
+                .widthIn(max = 500.dp)
                 .fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = Color.DarkGray),
             shape = CutCornerShape(8.dp)
@@ -161,7 +168,7 @@ fun OptionsScreen(
             Text("YES! I AM! (PLAY)", color = Color.Black, fontWeight = FontWeight.Black)
         }
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(12.dp))
 
         Button(
             onClick = {

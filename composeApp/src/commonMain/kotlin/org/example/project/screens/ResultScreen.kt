@@ -9,9 +9,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
@@ -43,6 +46,7 @@ fun ResultScreen(
     } else {
         100
     }
+    val scrollState = rememberScrollState()
 
     val (stars, rank, message, rankColor) = when {
         !isTimerEnabled -> listOf(3, "N/A", "TRAINING COMPLETE", Color.Gray)
@@ -56,6 +60,8 @@ fun ResultScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFF121212))
+            .safeDrawingPadding()
+            .verticalScroll(scrollState)
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -83,7 +89,7 @@ fun ResultScreen(
             style = MaterialTheme.typography.displayLarge.copy(
                 fontWeight = FontWeight.Black,
                 fontStyle = FontStyle.Italic,
-                fontSize = 100.sp,
+                fontSize = 80.sp,
                 color = rankColor as Color
             ),
             modifier = Modifier.padding(vertical = 8.dp).testTag("rank")
@@ -123,14 +129,14 @@ fun ResultScreen(
                 fontStyle = FontStyle.Italic,
                 color = rankColor
             ),
-            modifier = Modifier.padding(bottom = 48.dp).testTag("time_remaining")
+            modifier = Modifier.widthIn(max = 400.dp).padding(bottom = 32.dp).testTag("time_remaining")
         )
 
         Button(
             onClick = navigateTo1,
             modifier = Modifier
-                .widthIn(max = 800.dp)
-                .fillMaxWidth(0.7f)
+                .widthIn(max = 400.dp)
+                .fillMaxWidth(0.8f)
                 .height(70.dp)
                 .testTag("return_title"),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD700)),

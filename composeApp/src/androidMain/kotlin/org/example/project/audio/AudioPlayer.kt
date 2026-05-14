@@ -6,26 +6,24 @@ import org.example.project.AppContextHolder
 import org.example.project.R
 
 actual class AudioPlayer actual constructor() {
-    private var mediaPlayer: MediaPlayer? = null
-    private var bgPlayer: MediaPlayer? = null
+
+    companion object {
+        private var mediaPlayer: MediaPlayer? = null
+        private var bgPlayer: MediaPlayer? = null
+    }
 
     actual fun startBackgroundMusic() {
         if (bgPlayer?.isPlaying == true) return
 
         try {
             val context = AppContextHolder.context
-            bgPlayer?.release()
-
-            bgPlayer = MediaPlayer.create(context, org.example.project.R.raw.the_stardust_man_appears)
-
-            bgPlayer?.apply {
-                isLooping = true
-                setVolume(1.0f, 1.0f)
-                start()
+            // Solo creamos una instancia nueva si bgPlayer es nulo
+            if (bgPlayer == null) {
+                bgPlayer = MediaPlayer.create(context, R.raw.the_stardust_man_appears)
+                bgPlayer?.isLooping = true
             }
-            Log.d("AUDIO_DEBUG","Música iniciada correctamente")
+            bgPlayer?.start()
         } catch (e: Exception) {
-            Log.d("AUDIO_DEBUG", "Error al reproducir: ${e.message}")
             e.printStackTrace()
         }
     }
@@ -44,5 +42,9 @@ actual class AudioPlayer actual constructor() {
 
         mediaPlayer = MediaPlayer.create(context, R.raw.the_stardust_man_appears)
         mediaPlayer?.start()
+    }
+
+    object AudioInstance {
+        val player = AudioPlayer()
     }
 }

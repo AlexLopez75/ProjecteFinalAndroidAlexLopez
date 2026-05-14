@@ -8,10 +8,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -28,21 +31,27 @@ import kotlinproject.composeapp.generated.resources.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.ui.platform.testTag
+import org.example.project.audio.AudioInstance
 import org.example.project.audio.AudioPlayer
 
 @Composable
 fun TitleScreen(
-    audioPlayer: AudioPlayer,
+    audioPlayer: AudioPlayer = AudioInstance.player,
     navigateTo2: () -> Unit,
     navigateTo3: () -> Unit
 ) {
+    val scrollState = rememberScrollState()
+
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFF121212))
+            .verticalScroll(scrollState)
+            .safeDrawingPadding()
             .testTag("title_screen_container"),
         ) {
         val (jojoTitle, jojoCustom, jojoStands, btnOption, btnPlay) = createRefs()
+        val topGuideline = createGuidelineFromTop(0.05f)
 
         Image(
             painter = painterResource(Res.drawable.jojo_bizarre_adventure),
@@ -50,7 +59,7 @@ fun TitleScreen(
             modifier = Modifier
                 .size(width = 300.dp, height = 200.dp)
                 .constrainAs(jojoTitle) {
-                    top.linkTo(parent.top, margin = 80.dp)
+                    top.linkTo(topGuideline)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 }
@@ -89,8 +98,8 @@ fun TitleScreen(
                 navigateTo2()
             },
             modifier = Modifier
-                .widthIn(max = 800.dp)
-                .fillMaxWidth(0.7f)
+                .widthIn(max = 450.dp)
+                .fillMaxWidth(0.8f)
                 .height(70.dp)
                 .constrainAs(btnOption) {
                 top.linkTo(jojoStands.bottom, margin = 40.dp)
@@ -126,13 +135,14 @@ fun TitleScreen(
                 navigateTo3()
             },
             modifier = Modifier
-                .widthIn(max = 800.dp)
-                .fillMaxWidth(0.7f)
+                .widthIn(max = 450.dp)
+                .fillMaxWidth(0.8f)
                 .height(70.dp)
                 .constrainAs(btnPlay) {
                 top.linkTo(btnOption.bottom, margin = 20.dp)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
+                    bottom.linkTo(parent.bottom, margin = 32.dp)
                 }
                 .testTag("btn_quick_play"),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD700)),
